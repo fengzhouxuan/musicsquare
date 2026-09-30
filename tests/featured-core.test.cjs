@@ -39,6 +39,22 @@ test('all-platform view merges lists and filters shared tags without losing sour
   assert.deepEqual(core.getPlaylists({sources:{netease:catalog.sources.netease}}).map(p=>p.name),['N']);
 });
 
+test('category discovery deduplicates tags, scopes platforms and searches without case or whitespace sensitivity',()=>{
+  const catalog=core.parseCatalog({version:1,sources:{
+    netease:{playlists:[{id:1,name:'N',tags:['民谣','学习','DJ']},{id:2,name:'N2',tags:['民谣']}]},
+    qq:{playlists:[{id:3,name:'Q',tags:['民谣','流行']}]},
+    kuwo:{playlists:[{id:4,name:'K'}]}
+  }});
+  assert.deepEqual(core.getTags(catalog),['流行','民谣','学习','DJ']);
+  assert.deepEqual(core.getTags(catalog,'qq'),['流行','民谣']);
+  assert.deepEqual(core.getTags(catalog,'all',' dJ '),['DJ']);
+  assert.deepEqual(core.getTags(catalog,'all','学'),['学习']);
+  assert.deepEqual(core.getTags(catalog,'netease','流行'),[]);
+  assert.deepEqual(core.getTags(catalog,'kuwo'),[]);
+  assert.deepEqual(core.getTags(null),[]);
+  assert.deepEqual(core.getTags(catalog,'missing'),[]);
+});
+
 test('queue wraps, skips failures, shuffles and terminates when all tracks fail',()=>{
   const list=['a','b','c'].map(uid=>({uid}));
   assert.equal(core.nextIndex([],0,'next','list',new Set()),-1);
