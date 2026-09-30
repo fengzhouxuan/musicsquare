@@ -1,0 +1,11 @@
+{
+  "name": "musicsquare",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.*",
+    "test:coverage": "node --experimental-test-coverage --test tests/*.test.*",
+    "update:featured": "node scripts/update-featured.mjs",
+    "export:site": "node scripts/export-site.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

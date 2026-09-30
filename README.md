@@ -8,6 +8,8 @@
 
 # 🌟 Overview
 
+This fork adds automatically refreshed featured playlists from NetEase, QQ Music and Kuwo, plus an export script for the `/music/` section of a Hexo site. See [精选歌单与博客集成](FEATURED_PLAYLISTS.md) for local commands, playback limitations and deployment steps.
+
 MusicSquare is a simple music search, download, and play website. 
 It provides a lightweight, browser-friendly interface to search, play, and download music directly from your GitHub Pages site.
 

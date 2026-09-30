@@ -1,0 +1,41 @@
+name: Update featured playlists
+
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: featured-playlists
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test update logic
+        run: npm test
+      - name: Refresh catalog
+        id: refresh
+        continue-on-error: true
+        run: npm run update:featured
+      - name: Save catalog and update status
+        run: |
+          if ! git diff --quiet -- data/featured.json; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add data/featured.json
+            git commit -m 'chore: 更新精选歌单数据'
+            git push
+          fi
+      - name: Report complete refresh failure
+        if: steps.refresh.outcome == 'failure'
+        run: exit 1
