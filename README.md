@@ -26,8 +26,9 @@ This GitHub Pages deployment is available at:
 - 📻 **Multiple music sources**  
   Integrates online platforms such as Netease, Kuwo, JOOX and QQ.
 
-- 💛 **Cute & simple UI**  
-  A clean, playful interface themed around Pikachu and casual music listening.
+- 🍃 **Warm paper UI**
+
+  A warm white interface matching the blog, with featured playlist cards, a compact player dock, and an expandable lyrics panel.
 
 
 ## 🚀 How to Use

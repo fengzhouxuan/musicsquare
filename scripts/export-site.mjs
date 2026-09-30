@@ -3,7 +3,7 @@ import { dirname, resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-export const siteFiles=['index.html','featured-core.js','pikachu.gif','LICENSE','data/featured.json'];
+export const siteFiles=['index.html','theme.css','featured-core.js','LICENSE','data/featured.json'];
 
 // Copy only public assets. Do not delete destination files or copy repository automation.
 export async function exportSite(destination,source=root){
