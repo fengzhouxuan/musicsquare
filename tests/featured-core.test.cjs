@@ -25,6 +25,20 @@ test('catalog discards invalid tracks, duplicate IDs and unknown platforms',()=>
   assert.throws(()=>core.parseCatalog({version:2}));assert.throws(()=>core.parseCatalog(null));
 });
 
+test('all-platform view merges lists and filters shared tags without losing source identity',()=>{
+  const catalog=core.parseCatalog({version:1,sources:{
+    netease:{playlists:[{id:1,name:'N',tags:['流行']}]},
+    qq:{playlists:[{id:1,name:'Q',tags:['流行']}]},
+    kuwo:{playlists:[{id:2,name:'K'}]}
+  }});
+  assert.deepEqual(core.getPlaylists(catalog).map(p=>p.source),['netease','qq','kuwo']);
+  assert.deepEqual(core.getPlaylists(catalog,'all','流行').map(p=>p.name),['N','Q']);
+  assert.deepEqual(core.getPlaylists(catalog,'qq').map(p=>p.name),['Q']);
+  assert.deepEqual(core.getPlaylists(catalog,'all','missing'),[]);
+  assert.deepEqual(core.getPlaylists(null),[]);
+  assert.deepEqual(core.getPlaylists({sources:{netease:catalog.sources.netease}}).map(p=>p.name),['N']);
+});
+
 test('queue wraps, skips failures, shuffles and terminates when all tracks fail',()=>{
   const list=['a','b','c'].map(uid=>({uid}));
   assert.equal(core.nextIndex([],0,'next','list',new Set()),-1);
