@@ -10,7 +10,7 @@ test('export copies only public assets and preserves unrelated destination files
   try{
     const source=join(folder,'source');const target=join(folder,'target');
     await mkdir(join(source,'data'),{recursive:true});await mkdir(target);
-    for(const file of siteFiles)await writeFile(join(source,file),'content-'+file);
+    for(const file of siteFiles){await mkdir(join(source,file,'..'),{recursive:true});await writeFile(join(source,file),'content-'+file);}
     await writeFile(join(source,'secret.txt'),'do not publish');await writeFile(join(target,'keep.txt'),'keep');
     assert.equal(await exportSite(target,source),siteFiles.length);
     assert.equal(await readFile(join(target,'data/featured.json'),'utf8'),'content-data/featured.json');

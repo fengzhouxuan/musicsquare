@@ -3,7 +3,7 @@ import { dirname, resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-export const siteFiles=['index.html','theme.css','featured-core.js','LICENSE','data/featured.json'];
+export const siteFiles=['index.html','theme.css','featured-core.js','account-ui.js','config.js','shared/account-client.js','shared/music-account.js','shared/music-library.js','shared/sync-data.js','LICENSE','data/featured.json'];
 
 // Copy only public assets. Do not delete destination files or copy repository automation.
 export async function exportSite(destination,source=root){
